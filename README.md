@@ -12,6 +12,16 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
 ---
 
+### Pull docker image
+
+1. **Pull Docker image**
+
+       sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.0.0
+
+2. **Run the Docker container**
+
+       sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp83dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.0.0
+
 ### How to Build and Run the Docker Container
 
 1. **Open a terminal and navigate to your project folder.**
@@ -24,14 +34,18 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp83dev -d -v /var/www/html:/var/www/html ncompphp83dev
 
+## Notes
+
 Explanation of the volume mapping (-v /var/www/html:/var/www/html):
 
 - The first /var/www/html (before the colon :) is the path on your host machine.  
-- The second /var/www/html (after the colon :) is the path inside the Docker container.  
+- The second /var/www/html (after the colon :) is the path inside the Docker container.
 
-4. **Access your project in a browser: Open your browser and go to http://localhost. You should see the Apache test page.**
+The --add-host=host.docker.internal:host-gateway option is required only on Linux systems.
 
-5. **Add your PHP files: Place your PHP files in the folder mapped on your host machine (specified in step 3). These files will automatically be accessible inside the Docker container.**
+Access your project in a browser: Open your browser and go to http://localhost. You should see the Apache test page.
+
+Add your PHP files: Place your PHP files in the folder mapped on your host machine. These files will automatically be accessible inside the Docker container.
 
 **Configuring VS Code with XDebug**
 
@@ -45,7 +59,4 @@ Explanation of the volume mapping (-v /var/www/html:/var/www/html):
           }
       },
 
-Notes
-
-- The -v /var/www/html:/var/www/html flag maps the host machine directory (/var/www/html) to the container's directory (/var/www/html).  
-- The pathMappings in launch.json ensure that files inside the container are correctly mapped to your VS Code project folder.  
+The pathMappings in launch.json ensure that files inside the container are correctly mapped to your VS Code project folder.
