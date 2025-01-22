@@ -3,8 +3,7 @@ NCompPHPdev Docker Containers
 
 PHP development Docker containers with XDebug configured and working.
 
-The following PHP modules is installed  
-mysql, cli, common, curl, gd, imap, intl, ldap, mbstring, opcache, readline, xdebug, xml, zip, sqlsrv and pdo_sqlsrv
+The following PHP modules are installed: mysql, cli, common, curl, gd, imap, intl, ldap, mbstring, opcache, readline, xdebug, xml, zip, sqlsrv, and pdo_sqlsrv.
 
 ---
 
