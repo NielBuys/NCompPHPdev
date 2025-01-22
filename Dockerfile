@@ -1,5 +1,3 @@
-# Dockerfile started from https://writing.pupius.co.uk/apache-and-php-on-docker-44faef716150
-# 
 # sudo docker build -t ncompphp83dev .
 
 # sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp83dev -d -v /var/www/html:/var/www/html ncompphp83dev
