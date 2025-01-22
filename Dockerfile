@@ -10,16 +10,30 @@
 
 # host.docker.internal = Host system ip
 
-FROM ubuntu:latest
+FROM ubuntu:24.04
 MAINTAINER Niel Buys <nbuys@ncomp.co.za>
 
 # Install Apache, PHP, and supplementary programs
 RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    apache2 php8.3 php8.3-mysql php8.3-cli php8.3-common php8.3-curl php8.3-gd php8.3-imap php8.3-intl php8.3-ldap php8.3-mbstring php8.3-opcache php8.3-readline libapache2-mod-php8.3 php8.3-xdebug php8.3-xml php8.3-zip
+    apache2 php8.3 php8.3-mysql php8.3-cli php8.3-common php8.3-curl php8.3-gd php8.3-imap php8.3-intl php8.3-ldap php8.3-mbstring \
+    php8.3-opcache php8.3-readline libapache2-mod-php8.3 php8.3-xdebug php8.3-xml php8.3-zip php8.3-dev php-pear \
+    unixodbc-dev curl
+
+RUN pecl install sqlsrv
+RUN pecl install pdo_sqlsrv
+RUN printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/8.3/mods-available/sqlsrv.ini
+RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/8.3/mods-available/pdo_sqlsrv.ini
+
+RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+RUN apt-get update
+RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
 # Enable Apache mods
 RUN a2enmod php8.3
 RUN a2enmod rewrite
+RUN phpenmod -v 8.3 sqlsrv pdo_sqlsrv
 
 # Update PHP.ini file
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/8.3/apache2/php.ini
