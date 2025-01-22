@@ -3,6 +3,9 @@ NCompPHPdev Docker Containers
 
 PHP development Docker containers with XDebug configured and working.
 
+The following PHP modules is installed  
+mysql, cli, common, curl, gd, imap, intl, ldap, mbstring, opcache, readline, xdebug, xml, zip, sqlsrv and pdo_sqlsrv
+
 ---
 
 ## Getting Started
@@ -16,11 +19,11 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
 1. **Pull Docker image**
 
-       sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.0.0
+       sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.0.1
 
 2. **Run the Docker container**
 
-       sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp83dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.0.0
+       sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp83dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.0.1
 
 ### How to Build and Run the Docker Container
 
