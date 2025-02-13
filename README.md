@@ -30,21 +30,21 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
 2. **Build the Docker image**
 
-  2.1. **Ubuntu:**
+  - **Ubuntu:**
 
        sudo docker build -t ncompphp84dev .
 
-  2.2. **Windows:**
+  - **Windows:**
 
        docker build -t ncompphp84dev .
 
 3. **Run the Docker container:**
 
-  3.1. **Ubuntu:**
+  - **Ubuntu:**
 
        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ncompphp84dev
 
-  3.2. **Windows**
+  - **Windows**
 
        docker run  -p 80:80 --name ncompphp84dev -d -v C:/html:/var/www/html ncompphp84dev
 
