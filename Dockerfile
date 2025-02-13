@@ -1,12 +1,18 @@
 # sudo docker build -t ncompphp84dev .
 
+# Linux
 # sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ncompphp84dev
+# Windows
+# docker run  -p 80:80 --name ncompphp84dev -d -v C:/html:/var/www/html ncompphp84dev
 
 # explaining: -v /var/www/html:/var/www/html 
 # The first /var/www/html (before the colon :) is the path on your host machine
 # The second /var/www/html (after the colon :) is the path inside the Docker container.
 
 # host.docker.internal = Host system ip
+
+# opening Docker environment from vscode terminal
+# docker exec -it ncompphp84dev /bin/bash
 
 FROM ubuntu:24.04
 MAINTAINER Niel Buys <nbuys@ncomp.co.za>
@@ -19,7 +25,7 @@ RUN add-apt-repository ppa:ondrej/php
 RUN apt-get -y install \
     apache2 php8.4 php8.4-mysql php8.4-cli php8.4-common php8.4-curl php8.4-gd php8.4-imap php8.4-intl php8.4-ldap php8.4-mbstring \
     php8.4-opcache php8.4-readline libapache2-mod-php8.4 php8.4-xdebug php8.4-xml php8.4-zip php8.4-dev php-pear \
-    unixodbc-dev curl
+    unixodbc-dev curl vim composer zip npm
 
 RUN pecl install sqlsrv
 RUN pecl install pdo_sqlsrv
