@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "name": "ncompphpdev",
+  "context": ".",
+  "dockerfile": "Dockerfile",
+  "tags": ["ncompphpdev:latest"],
+  "platforms": ["linux/amd64"],
+  "buildArgs": {
+    "DEBIAN_FRONTEND": "noninteractive"
+  }
+}
