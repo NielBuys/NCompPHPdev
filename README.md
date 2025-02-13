@@ -18,11 +18,11 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
 1. **Pull Docker image**
 
-       sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.1.0
+      sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.1.0
 
 2. **Run the Docker container**
 
-       sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
+      sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
 
 ### How to Build and Run the Docker Container
 
@@ -32,21 +32,21 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Ubuntu:**
 
-       sudo docker build -t ncompphp84dev .
+        sudo docker build -t ncompphp84dev .
 
   - **Windows:**
 
-       docker build -t ncompphp84dev .
+        docker build -t ncompphp84dev .
 
 3. **Run the Docker container:**
 
   - **Ubuntu:**
 
-       sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ncompphp84dev
+        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ncompphp84dev
 
   - **Windows**
 
-       docker run  -p 80:80 --name ncompphp84dev -d -v C:/html:/var/www/html ncompphp84dev
+        docker run  -p 80:80 --name ncompphp84dev -d -v C:/html:/var/www/html ncompphp84dev
 
 ## Notes
 
@@ -63,7 +63,7 @@ Add your PHP files: Place your PHP files in the folder mapped on your host machi
 
 In my VS Code terminal, I execute the following Docker command to access the /var/www/html folder, where I run Composer and npm commands:
 
-      docker exec -it ncompphp84dev /bin/bash
+     docker exec -it ncompphp84dev /bin/bash
 
 **Configuring VS Code with XDebug**
 
