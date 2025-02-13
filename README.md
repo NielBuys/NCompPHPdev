@@ -18,11 +18,11 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
 1. **Pull Docker image**
 
-        sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.1.0
+          sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.1.0
 
 2. **Run the Docker container**
 
-        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
+          sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
 
 ### How to Build and Run the Docker Container
 
