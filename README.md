@@ -18,7 +18,13 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
 1. **Pull Docker image**
 
+  - **Ubuntu**
+
           sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.1.0
+    
+  - **Windows**
+
+          docker pull ghcr.io/nielbuys/ncompphpdev:v1.1.0
 
 2. **Run the Docker container**
 
@@ -71,7 +77,7 @@ In my VS Code terminal, I execute the following Docker command to access the /va
 
      docker exec -it ncompphp84dev /bin/bash
 
-**Configuring VS Code with XDebug**
+**Configuring VS Code with XDebug inside the "launch.json" file. PHP Debug (XDebug.org) vscode extension need to be installed.**
 
       {
           "name": "Listen for Xdebug",
