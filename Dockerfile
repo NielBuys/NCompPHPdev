@@ -15,7 +15,7 @@
 # docker exec -it ncompphp84dev /bin/bash
 
 FROM ubuntu:24.04
-MAINTAINER Niel Buys <nbuys@ncomp.co.za>
+LABEL Niel Buys <nbuys@ncomp.co.za>
 
 # Install Apache, PHP, and supplementary programs
 RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install software-properties-common
