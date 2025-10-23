@@ -27,7 +27,7 @@ RUN apt-get -y install \
     php8.5-readline libapache2-mod-php8.5 php8.5-xml php8.5-zip php8.5-dev php-pear \
     unixodbc-dev curl vim composer zip npm
 
-# need to put php8.5-xdebug in when its released
+# need to put php8.5-xdebug back when its released
 #RUN apt-get -y install \
 #    apache2 php8.5 php8.5-mysql php8.5-cli php8.5-common php8.5-curl php8.5-gd php8.5-intl php8.5-ldap php8.5-mbstring \
 #    php8.5-readline libapache2-mod-php8.5 php8.5-xdebug php8.5-xml php8.5-zip php8.5-dev php-pear \

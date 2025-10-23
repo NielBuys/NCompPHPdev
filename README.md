@@ -3,7 +3,7 @@ NCompPHPdev Docker Containers
 
 PHP development Docker containers with XDebug configured and working.
 
-The following PHP modules are installed: mysql, cli, common, curl, gd, imap, intl, ldap, mbstring, opcache, readline, xdebug, xml, zip, sqlsrv, and pdo_sqlsrv.
+The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, xdebug, xml, zip, sqlsrv, and pdo_sqlsrv.
 
 ---
 
@@ -30,11 +30,11 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Ubuntu**
 
-          sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
+          sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
 
   - **Windows**
 
-          docker run  -p 80:80 --name ncompphp84dev -d -v C:/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
+          docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.1.0
 
 ### How to Build and Run the Docker Container
 
@@ -44,21 +44,21 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Ubuntu:**
 
-          sudo docker build -t ncompphp84dev .
+          sudo docker build -t ncompphp85dev .
 
   - **Windows:**
 
-          docker build -t ncompphp84dev .
+          docker build -t ncompphp85dev .
 
 3. **Run the Docker container:**
 
   - **Ubuntu:**
 
-          sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp84dev -d -v /var/www/html:/var/www/html ncompphp84dev
+          sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ncompphp84dev
 
   - **Windows**
 
-          docker run  -p 80:80 --name ncompphp84dev -d -v C:/html:/var/www/html ncompphp84dev
+          docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ncompphp85dev
 
 ## Notes
 
@@ -75,7 +75,7 @@ Add your PHP files: Place your PHP files in the folder mapped on your host machi
 
 In my VS Code terminal, I execute the following Docker command to access the /var/www/html folder, where I run Composer and npm commands:
 
-     docker exec -it ncompphp84dev /bin/bash
+     docker exec -it ncompphp85dev /bin/bash
 
 **Configuring VS Code with XDebug inside the "launch.json" file. PHP Debug (XDebug.org) vscode extension need to be installed.**
 
