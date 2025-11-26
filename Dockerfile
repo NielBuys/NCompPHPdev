@@ -12,7 +12,7 @@
 # host.docker.internal = Host system ip
 
 # opening Docker environment from vscode terminal
-# docker exec -it ncompphp84dev /bin/bash
+# docker exec -it ncompphp85dev /bin/bash
 
 FROM ubuntu:24.04
 LABEL maintainer="Niel Buys <nbuys@ncomp.co.za>"
@@ -47,7 +47,7 @@ RUN apt-get -y install \
 # Enable Apache mods
 RUN a2enmod php8.5
 RUN a2enmod rewrite
-# RUN phpenmod -v 8.5 sqlsrv pdo_sqlsrv
+#RUN phpenmod -v 8.5 sqlsrv pdo_sqlsrv
 
 # Update PHP.ini file
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/8.5/apache2/php.ini

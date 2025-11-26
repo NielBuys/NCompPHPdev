@@ -90,3 +90,5 @@ In my VS Code terminal, I execute the following Docker command to access the /va
       },
 
 The pathMappings in launch.json ensure that files inside the container are correctly mapped to your VS Code project folder.
+
+Clear Docker build caches "docker builder prune"
