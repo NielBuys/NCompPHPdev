@@ -22,21 +22,21 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Ubuntu**
 
-          sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.0
     
   - **Windows**
 
-          docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.0
 
 2. **Run the Docker container**
 
   - **Ubuntu**
 
-          sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.0
 
   - **Windows**
 
-          docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.0
 
 ### How to Build and Run the Docker Container
 
@@ -46,21 +46,21 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Ubuntu:**
 
-          sudo docker build -t ncompphp85dev .
+        sudo docker build -t ncompphp85dev .
 
   - **Windows:**
 
-          docker build -t ncompphp85dev .
+        docker build -t ncompphp85dev .
 
 3. **Run the Docker container:**
 
   - **Ubuntu:**
 
-          sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ncompphp84dev
+        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ncompphp84dev
 
   - **Windows**
 
-          docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ncompphp85dev
+        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ncompphp85dev
 
 ## Notes
 
