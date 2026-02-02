@@ -28,9 +28,9 @@ RUN apt-get -y install \
     unixodbc-dev curl vim composer zip npm
 
 RUN pecl install sqlsrv
+### Still error with pdo_sqlsrv install
 # RUN pecl install pdo_sqlsrv
 RUN printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/8.5/mods-available/sqlsrv.ini
-### Still error with pdo_sqlsrv install
 # RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/8.5/mods-available/pdo_sqlsrv.ini
 
 RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb
