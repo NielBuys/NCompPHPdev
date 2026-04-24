@@ -28,10 +28,9 @@ RUN apt-get -y install \
     unixodbc-dev curl vim composer zip npm
 
 RUN pecl install sqlsrv
-### Still error with pdo_sqlsrv install
-# RUN pecl install pdo_sqlsrv
+RUN pecl install pdo_sqlsrv
 RUN printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/8.5/mods-available/sqlsrv.ini
-# RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/8.5/mods-available/pdo_sqlsrv.ini
+RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/8.5/mods-available/pdo_sqlsrv.ini
 
 RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
@@ -42,8 +41,7 @@ RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
 # Enable Apache mods
 RUN a2enmod php8.5
 RUN a2enmod rewrite
-# RUN phpenmod -v 8.5 sqlsrv pdo_sqlsrv
-RUN phpenmod -v 8.5 sqlsrv
+RUN phpenmod -v 8.5 sqlsrv pdo_sqlsrv
 
 # Update PHP.ini file
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/8.5/apache2/php.ini

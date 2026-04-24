@@ -3,9 +3,7 @@ NCompPHPdev Docker Containers
 
 PHP development Docker containers with XDebug configured and working.
 
-The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, xdebug, xml, zip and sqlsrv.
-
-Note: pdo_sqlsrv is not working with php8.5. I am awaiting the fix.
+The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, xdebug, xml, zip sqlsrv and pdo_sqlsrv.
 
 ---
 
@@ -22,21 +20,21 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Ubuntu**
 
-        sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.1
     
   - **Windows**
 
-        docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.1
 
 2. **Run the Docker container**
 
   - **Ubuntu**
 
-        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.1
 
   - **Windows**
 
-        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.0
+        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.1
 
 ### How to Build and Run the Docker Container
 
@@ -56,7 +54,7 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Ubuntu:**
 
-        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ncompphp84dev
+        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ncompphp85dev
 
   - **Windows**
 
