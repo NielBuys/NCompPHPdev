@@ -34,7 +34,7 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Windows**
 
-        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.1
+        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html:delegated ghcr.io/nielbuys/ncompphpdev:v1.2.1
 
 ### How to Build and Run the Docker Container
 
@@ -58,7 +58,7 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
   - **Windows**
 
-        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html ncompphp85dev
+        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html:delegated ncompphp85dev
 
 ## Notes
 
@@ -66,6 +66,8 @@ Explanation of the volume mapping (-v /var/www/html:/var/www/html):
 
 - The first /var/www/html (before the colon :) is the path on your host machine.  
 - The second /var/www/html (after the colon :) is the path inside the Docker container.
+
+The ":delegated" flag in Windows improves the webpage loading speed in Windows.
 
 The --add-host=host.docker.internal:host-gateway option is required only on Linux systems.
 
