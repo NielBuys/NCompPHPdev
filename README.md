@@ -3,6 +3,17 @@ NCompPHPdev Docker Containers
 
 PHP development Docker containers with XDebug configured and working.
 
+## Why this exists
+
+Developing PHP web apps natively on Windows never gives me exactly what I get on the
+server. It is close, but it is not identical, and the differences tend to surface late.
+This container exists so that when I develop on Windows, I am working in exactly the
+environment the application will run in on the server.
+
+On Linux the reason is a different one. The environment already matches, so the value is
+in not having to set everything up by hand on every machine, and in knowing that every
+developer gets the same consistent environment.
+
 The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, xdebug, xml, zip sqlsrv and pdo_sqlsrv.
 
 > **You are on the `php8.6` branch.** PHP 8.6 has not been released yet, so on this
