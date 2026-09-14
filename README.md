@@ -157,12 +157,28 @@ this branch. For PHP 8.6, build locally instead - see the next section.
 
 ## Notes
 
-Explanation of the volume mapping (-v /var/www/html:/var/www/html):
+### What does the volume mapping (-v C:/html:/var/www/html) mean?
 
-- The first /var/www/html (before the colon :) is the path on your host machine.  
-- The second /var/www/html (after the colon :) is the path inside the Docker container.
+The two paths either side of the colon are the host and the container:
 
-### Why PHP can feel slow on Windows, and what ":delegated" is for
+- The first path (before the colon `:`) is the folder on your host machine.
+- The second path (after the colon `:`) is the folder inside the Docker container.
+
+So your files stay where you edit them on the host, and the container reads them from
+`/var/www/html`. Nothing is copied into the image - edit a file on the host and the
+change is live on the next request.
+
+### Where do I put my PHP files?
+
+In the folder mapped on your host machine - `C:/html` on Windows, `/var/www/html` on
+Linux. They are automatically accessible inside the container, no rebuild needed.
+
+### How do I open the site in a browser?
+
+Go to http://localhost. You should see the Apache test page, or your own project if
+you have placed files in the mapped folder.
+
+### Why does PHP feel slow on Windows, and what does ":delegated" do?
 
 On Windows the code lives on the host (`C:/html`) and is bind-mounted into the container
 at `/var/www/html`. Every file the container reads therefore crosses the Windows-to-Linux
@@ -183,8 +199,10 @@ for this setup because editing happens on the host and the container only reads.
 flag originated in Docker Desktop for Mac, so how much it helps on Windows depends on
 the Docker Desktop version and backend - worth measuring rather than assuming.
 
-If a project is large and still slow, the real fix is to stop crossing the boundary
-altogether. Docker's guidance for the WSL 2 backend is:
+### What if it is still slow?
+
+Stop crossing the filesystem boundary altogether. Docker's guidance for the WSL 2
+backend is:
 
 > Performance is much higher when files are bind-mounted from the Linux filesystem,
 > rather than accessed from the Windows host filesystem.
@@ -195,18 +213,21 @@ files stored in the Linux filesystem, so editors, watchers and auto-reload behav
 there as well. See
 [WSL 2 best practices](https://docs.docker.com/desktop/features/wsl/best-practices/).
 
+### Why is --add-host=host.docker.internal:host-gateway needed?
 
-The --add-host=host.docker.internal:host-gateway option is required only on Linux systems.
+It gives the container a name that resolves to the host system's IP, which is what
+Xdebug connects back to. It is required **only on Linux** - on Windows Docker Desktop
+provides `host.docker.internal` already.
 
-Access your project in a browser: Open your browser and go to http://localhost. You should see the Apache test page.
+### How do I run Composer or npm inside the container?
 
-Add your PHP files: Place your PHP files in the folder mapped on your host machine. These files will automatically be accessible inside the Docker container.
-
-In my VS Code terminal, I execute the following Docker command to access the /var/www/html folder, where I run Composer and npm commands:
+Open a shell in the running container and work from `/var/www/html`:
 
      docker exec -it ncompphp86dev /bin/bash
 
-**Configuring VS Code with XDebug inside the "launch.json" file. PHP Debug (XDebug.org) vscode extension need to be installed.**
+### How do I configure Xdebug in VS Code?
+
+Install the PHP Debug (XDebug.org) extension, then add this to `launch.json`:
 
       {
           "name": "Listen for Xdebug",
@@ -218,6 +239,13 @@ In my VS Code terminal, I execute the following Docker command to access the /va
           }
       },
 
-The pathMappings in launch.json ensure that files inside the container are correctly mapped to your VS Code project folder.
+The `pathMappings` entry ensures that files inside the container are correctly mapped to
+your VS Code project folder - without it, breakpoints will not bind.
 
-Clear Docker build caches "docker builder prune"
+> **On this branch Xdebug is not installed.** There is no `php8.6-xdebug` package yet,
+> so the above will not connect until it is re-enabled. See
+> [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
+
+### How do I clear the Docker build cache?
+
+     docker builder prune
