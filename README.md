@@ -162,7 +162,39 @@ Explanation of the volume mapping (-v /var/www/html:/var/www/html):
 - The first /var/www/html (before the colon :) is the path on your host machine.  
 - The second /var/www/html (after the colon :) is the path inside the Docker container.
 
-The ":delegated" flag in Windows improves the webpage loading speed in Windows.
+### Why PHP can feel slow on Windows, and what ":delegated" is for
+
+On Windows the code lives on the host (`C:/html`) and is bind-mounted into the container
+at `/var/www/html`. Every file the container reads therefore crosses the Windows-to-Linux
+filesystem boundary, and each `stat()` and `open()` across that boundary is far more
+expensive than a native read inside the container.
+
+This hits PHP harder than most workloads. A framework bootstrap `require`s hundreds of
+small files on *every single request*, so the cost scales with the *number* of files in
+the project rather than their size. A large framework, or a `vendor` directory full of
+dependencies, can make an otherwise trivial page feel sluggish - while the same code on
+a Linux host feels instant.
+
+The `:delegated` flag relaxes the consistency guarantee for the mount: the container's
+view of the filesystem is treated as authoritative, so writes made inside the container
+may take a moment to become visible on the host. That looser contract allows more
+aggressive caching instead of checking back with the host on every access. It is safe
+for this setup because editing happens on the host and the container only reads. The
+flag originated in Docker Desktop for Mac, so how much it helps on Windows depends on
+the Docker Desktop version and backend - worth measuring rather than assuming.
+
+If a project is large and still slow, the real fix is to stop crossing the boundary
+altogether. Docker's guidance for the WSL 2 backend is:
+
+> Performance is much higher when files are bind-mounted from the Linux filesystem,
+> rather than accessed from the Windows host filesystem.
+
+Moving the project inside the WSL 2 distribution and mounting it from there avoids the
+translation layer entirely. File change notifications (`inotify`) also only work for
+files stored in the Linux filesystem, so editors, watchers and auto-reload behave better
+there as well. See
+[WSL 2 best practices](https://docs.docker.com/desktop/features/wsl/best-practices/).
+
 
 The --add-host=host.docker.internal:host-gateway option is required only on Linux systems.
 
