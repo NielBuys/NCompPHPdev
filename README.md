@@ -3,6 +3,12 @@ NCompPHPdev Docker Containers
 
 PHP development Docker containers with XDebug configured and working.
 
+The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, xdebug, xml, zip sqlsrv and pdo_sqlsrv.
+
+> **You are on the `php8.6` branch.** PHP 8.6 has not been released yet, so on this
+> branch **xdebug, sqlsrv and pdo_sqlsrv are commented out** in the Dockerfile - the
+> packages do not build against PHP 8.6 yet. See [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
+
 ## Why this exists
 
 Developing PHP web apps natively on Windows never gives me exactly what I get on the
@@ -13,12 +19,6 @@ environment the application will run in on the server.
 On Linux the reason is a different one. The environment already matches, so the value is
 in not having to set everything up by hand on every machine, and in knowing that every
 developer gets the same consistent environment.
-
-The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, xdebug, xml, zip sqlsrv and pdo_sqlsrv.
-
-> **You are on the `php8.6` branch.** PHP 8.6 has not been released yet, so on this
-> branch **xdebug, sqlsrv and pdo_sqlsrv are commented out** in the Dockerfile - the
-> packages do not build against PHP 8.6 yet. See [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
 
 ---
 
