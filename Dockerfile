@@ -31,7 +31,7 @@ RUN dpkg -i /tmp/debsuryorg-archive-keyring.deb && rm /tmp/debsuryorg-archive-ke
 RUN echo "deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
 RUN apt-get update
 
-# php8.6 is a pre-release (currently 8.6.0~alpha1). php8.6-xdebug is not built yet,
+# php8.6 is a pre-release (currently 8.6.0~beta3). php8.6-xdebug is not built yet,
 # so it is left out of this list - see the xdebug section below.
 RUN apt-get -y install \
     apache2 php8.6 php8.6-mysql php8.6-cli php8.6-common php8.6-curl php8.6-gd php8.6-intl php8.6-ldap php8.6-mbstring \
@@ -65,6 +65,10 @@ RUN a2enmod rewrite
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/8.6/apache2/php.ini
 RUN sed -i "s/error_reporting = .*$/error_reporting = E_ALL/" /etc/php/8.6/apache2/php.ini
 RUN sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.6/apache2/php.ini
+# Allow 20 MB uploads; post_max_size must stay above upload_max_filesize so the
+# rest of the form still fits alongside the file
+RUN sed -i "s/^upload_max_filesize = .*/upload_max_filesize = 20M/" /etc/php/8.6/apache2/php.ini
+RUN sed -i "s/^post_max_size = .*/post_max_size = 25M/" /etc/php/8.6/apache2/php.ini
 
 # --- Xdebug ------------------------------------------------------------------
 # COMMENTED OUT: there is no php8.6-xdebug package yet, and released Xdebug
@@ -87,6 +91,12 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/c\<Directory /var/www/html
     AllowOverride All\n\
     Require all granted\n\
 </Directory>' /etc/apache2/apache2.conf
+
+# Trust the git repositories under the mounted web root. On a Linux host the
+# mounted files belong to the host user, not root, and git then refuses them as
+# "dubious ownership" (e.g. git describe in a project's build script fails).
+# Docker Desktop on Windows mounts them as root, where this changes nothing.
+RUN git config --system --add safe.directory '/var/www/html/*'
 
 # Set Apache environment variables
 ENV APACHE_RUN_USER=www-data
