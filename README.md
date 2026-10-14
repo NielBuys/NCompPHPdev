@@ -100,7 +100,7 @@ Blocking the merge to `main`:
 
 | Item                    | Status                                                                 |
 | ----------------------- | ---------------------------------------------------------------------- |
-| `php8.6` + core modules | Working - currently `8.6.0~beta3` from `packages.sury.org`              |
+| `php8.6` + core modules | Working - currently `8.6.0~rc3` from `packages.sury.org`                |
 | `php8.6-xdebug`         | **Not available.** No package built yet, and released Xdebug 3.5.x refuses to build on PHP >= 8.6.0 |
 | `sqlsrv` / `pdo_sqlsrv` | **Not available.** pecl 5.13.3 has not been built against PHP 8.6       |
 | `msodbcsql18`           | Working - Microsoft publishes a `resolute` (26.04) build                |

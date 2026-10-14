@@ -31,7 +31,7 @@ RUN dpkg -i /tmp/debsuryorg-archive-keyring.deb && rm /tmp/debsuryorg-archive-ke
 RUN echo "deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
 RUN apt-get update
 
-# php8.6 is a pre-release (currently 8.6.0~beta3). php8.6-xdebug is not built yet,
+# php8.6 is a pre-release (currently 8.6.0~rc3). php8.6-xdebug is not built yet,
 # so it is left out of this list - see the xdebug section below.
 RUN apt-get -y install \
     apache2 php8.6 php8.6-mysql php8.6-cli php8.6-common php8.6-curl php8.6-gd php8.6-intl php8.6-ldap php8.6-mbstring \
