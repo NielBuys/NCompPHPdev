@@ -70,6 +70,15 @@ RUN sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.6/apache2/php
 RUN sed -i "s/^upload_max_filesize = .*/upload_max_filesize = 20M/" /etc/php/8.6/apache2/php.ini
 RUN sed -i "s/^post_max_size = .*/post_max_size = 25M/" /etc/php/8.6/apache2/php.ini
 
+# Opcode cache for the command line, kept in files so it carries over between runs.
+# On a Windows host the code is bind-mounted across the Windows-to-Linux filesystem
+# boundary, where every file read is slow, and each CLI run (test runners, cron
+# scripts) starts cold, reading and compiling every file again. The opcode cache is
+# already on for Apache but off for the CLI by default. With a file cache each CLI run
+# reuses what the last one compiled. Timestamps are still checked, so edits show up.
+RUN printf "; priority=99\nopcache.enable_cli=1\nopcache.file_cache=/tmp/opcache\n" > /etc/php/8.6/cli/conf.d/99-opcache-cli.ini
+RUN mkdir -p /tmp/opcache && chmod 1777 /tmp/opcache
+
 # --- Xdebug ------------------------------------------------------------------
 # COMMENTED OUT: there is no php8.6-xdebug package yet, and released Xdebug
 # (3.5.x) refuses to build on PHP >= 8.6.0. Uncomment both blocks once

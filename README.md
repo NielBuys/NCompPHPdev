@@ -210,6 +210,18 @@ for this setup because editing happens on the host and the container only reads.
 flag originated in Docker Desktop for Mac, so how much it helps on Windows depends on
 the Docker Desktop version and backend - worth measuring rather than assuming.
 
+### Why is the opcode cache on for the command line?
+
+PHP's opcode cache keeps compiled code so it does not have to be read and compiled again.
+It is on for Apache by default, but off for the command line, so every CLI run (a test
+runner, a cron script) starts cold and reads and compiles every file it needs again.
+Across the Windows mount that is most of its time.
+
+The image switches it on for the CLI with a file cache in `/tmp/opcache`
+(`/etc/php/8.6/cli/conf.d/99-opcache-cli.ini`), so each run reuses what the previous run
+compiled. Timestamps are still checked, so an edited file is picked up on the next run. The
+cache lives inside the container and starts empty when the container is recreated.
+
 ### What if it is still slow?
 
 Stop crossing the filesystem boundary altogether. Docker's guidance for the WSL 2
