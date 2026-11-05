@@ -35,7 +35,7 @@ RUN apt-get update
 # so it is left out of this list - see the xdebug section below.
 RUN apt-get -y install \
     apache2 php8.6 php8.6-mysql php8.6-cli php8.6-common php8.6-curl php8.6-gd php8.6-intl php8.6-ldap php8.6-mbstring \
-    php8.6-readline libapache2-mod-php8.6 php8.6-xml php8.6-zip php8.6-dev php-pear \
+    php8.6-sqlite3 php8.6-readline libapache2-mod-php8.6 php8.6-xml php8.6-zip php8.6-dev php-pear \
     unixodbc-dev curl vim composer zip npm
 
 # --- sqlsrv / pdo_sqlsrv -----------------------------------------------------

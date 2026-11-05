@@ -3,7 +3,7 @@ NCompPHPdev Docker Containers
 
 PHP development Docker containers with XDebug configured and working.
 
-The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, xdebug, xml, zip sqlsrv and pdo_sqlsrv.
+The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, sqlite3 (with pdo_sqlite), xdebug, xml, zip, sqlsrv and pdo_sqlsrv.
 
 > **You are on the `php8.6` branch.** PHP 8.6 has not been released yet, so on this
 > branch **xdebug, sqlsrv and pdo_sqlsrv are commented out** in the Dockerfile - the
