@@ -33,8 +33,10 @@ RUN apt-get update
 
 # php8.6 is a pre-release (currently 8.6.0~rc3). php8.6-xdebug is not built yet,
 # so it is left out of this list - see the xdebug section below.
+# php8.6-cgi: the php-cgi binary, to run a script as a CGI web request, the way
+# shared hosts' php wrappers run cron scripts and pages (tests use it).
 RUN apt-get -y install \
-    apache2 php8.6 php8.6-mysql php8.6-cli php8.6-common php8.6-curl php8.6-gd php8.6-intl php8.6-ldap php8.6-mbstring \
+    apache2 php8.6 php8.6-mysql php8.6-cli php8.6-cgi php8.6-common php8.6-curl php8.6-gd php8.6-intl php8.6-ldap php8.6-mbstring \
     php8.6-sqlite3 php8.6-readline libapache2-mod-php8.6 php8.6-xml php8.6-zip php8.6-dev php-pear \
     unixodbc-dev curl vim composer zip npm
 
