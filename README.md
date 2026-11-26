@@ -5,9 +5,8 @@ PHP development Docker containers with XDebug configured and working.
 
 The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, sqlite3 (with pdo_sqlite), xdebug, xml, zip, sqlsrv and pdo_sqlsrv.
 
-> **You are on the `php8.6` branch.** PHP 8.6 has not been released yet, so on this
-> branch **xdebug, sqlsrv and pdo_sqlsrv are commented out** in the Dockerfile - the
-> packages do not build against PHP 8.6 yet. See [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
+> **You are on the `php8.6` branch.** PHP 8.6 is released and every module above
+> installs, but Xdebug is still a 3.6.0 alpha build. See [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
 
 ## Why this exists
 
@@ -88,25 +87,26 @@ until it is merged.** To use an in-progress version, build it locally from its b
 
 ## Current status of the php8.6 branch
 
-PHP 8.6 reaches General Availability on **2026-11-19**. Until then this branch tracks
-the pre-release packages.
+PHP 8.6 reached General Availability on **2026-11-19** (`8.6.0`), and every package now
+installs. The one caveat is Xdebug: no stable release supports PHP 8.6 yet, so
+`php8.6-xdebug` is built from Xdebug 3.6.0alpha1.
 
 **Packages no longer come from `ppa:ondrej/php`.** Ondřej Surý has stopped adding new
 Ubuntu LTS releases to the Launchpad PPA - it stops at `noble`/24.04. From Ubuntu 26.04
 onwards the packages live at **`packages.sury.org`**, which is what the Dockerfile now
 configures.
 
-Blocking the merge to `main`:
-
 | Item                    | Status                                                                 |
 | ----------------------- | ---------------------------------------------------------------------- |
-| `php8.6` + core modules | Working - currently `8.6.0~rc3` from `packages.sury.org`                |
-| `php8.6-xdebug`         | **Not available.** No package built yet, and released Xdebug 3.5.x refuses to build on PHP >= 8.6.0 |
-| `sqlsrv` / `pdo_sqlsrv` | **Not available.** pecl 5.13.3 has not been built against PHP 8.6       |
+| `php8.6` + core modules | Working - `8.6.0` from `packages.sury.org`                              |
+| `php8.6-xdebug`         | Working - from `packages.sury.org`, built from Xdebug **3.6.0alpha1** (3.5.x refuses PHP 8.6) |
+| `sqlsrv` / `pdo_sqlsrv` | Working - `php8.6-sqlsrv` / `php8.6-pdo-sqlsrv` 5.14.0 from `packages.sury.org` |
 | `msodbcsql18`           | Working - Microsoft publishes a `resolute` (26.04) build                |
 
-Each of these is commented out in the [Dockerfile](Dockerfile) with the condition for
-re-enabling it. Uncomment as upstream catches up, then merge to `main`.
+**sqlsrv no longer comes from pecl.** Microsoft's last pecl release is 5.13.3, which does
+not compile on PHP 8.6. From 5.14.0 the drivers ship only through
+[PIE](https://github.com/php/pie) and GitHub releases, so the Dockerfile installs
+the `packages.sury.org` builds instead.
 
 ---
 
@@ -265,8 +265,8 @@ Install the PHP Debug (XDebug.org) extension, then add this to `launch.json`:
 The `pathMappings` entry ensures that files inside the container are correctly mapped to
 your VS Code project folder - without it, breakpoints will not bind.
 
-> **On this branch Xdebug is not installed.** There is no `php8.6-xdebug` package yet,
-> so the above will not connect until it is re-enabled. See
+> **On this branch Xdebug is a 3.6.0 alpha build**, the first Xdebug with PHP 8.6
+> support. If debugging misbehaves, suspect the alpha first. See
 > [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
 
 ### How do I clear the Docker build cache?

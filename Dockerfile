@@ -31,26 +31,25 @@ RUN dpkg -i /tmp/debsuryorg-archive-keyring.deb && rm /tmp/debsuryorg-archive-ke
 RUN echo "deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
 RUN apt-get update
 
-# php8.6 is a pre-release (currently 8.6.0~rc3). php8.6-xdebug is not built yet,
-# so it is left out of this list - see the xdebug section below.
+# php8.6-xdebug: no stable Xdebug supports PHP 8.6 yet (3.5.x refuses to build on
+# it). sury builds this package from Xdebug 3.6.0alpha1, the first release with 8.6
+# support - it moves to the stable 3.6.x by itself once that ships.
 # php8.6-cgi: the php-cgi binary, to run a script as a CGI web request, the way
 # shared hosts' php wrappers run cron scripts and pages (tests use it).
 RUN apt-get -y install \
     apache2 php8.6 php8.6-mysql php8.6-cli php8.6-cgi php8.6-common php8.6-curl php8.6-gd php8.6-intl php8.6-ldap php8.6-mbstring \
-    php8.6-sqlite3 php8.6-readline libapache2-mod-php8.6 php8.6-xml php8.6-zip php8.6-dev php-pear \
+    php8.6-sqlite3 php8.6-readline libapache2-mod-php8.6 php8.6-xml php8.6-zip php8.6-dev php8.6-xdebug php-pear \
     unixodbc-dev curl vim composer zip npm
 
 # --- sqlsrv / pdo_sqlsrv -----------------------------------------------------
-# COMMENTED OUT: the current pecl releases (sqlsrv 5.13.3) have not been built
-# against PHP 8.6 yet and fail to compile. Uncomment once Microsoft ships a
-# PHP 8.6 compatible release - same as we did during the PHP 8.5 pre-releases.
-# RUN pecl install sqlsrv
-# RUN pecl install pdo_sqlsrv
-# RUN printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/8.6/mods-available/sqlsrv.ini
-# RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/8.6/mods-available/pdo_sqlsrv.ini
+# From packages.sury.org, NOT pecl. Microsoft stopped publishing to pecl at 5.13.3
+# (which does not compile on PHP 8.6); 5.14.0 onwards ships only through PIE
+# (pie install microsoft/sqlsrv) and GitHub releases. The sury packages are built
+# from that GitHub source and ship their own mods-available .ini files.
+RUN apt-get -y install php8.6-sqlsrv php8.6-pdo-sqlsrv
 
-# The Microsoft ODBC driver itself is PHP independent and does have a 26.04 build,
-# so it stays in - the sqlsrv PHP extensions above just cannot use it yet.
+# The Microsoft ODBC driver itself is PHP independent and has a 26.04 build;
+# sqlsrv and pdo_sqlsrv above connect to SQL Server through it.
 RUN curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
@@ -60,8 +59,8 @@ RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
 # Enable Apache mods
 RUN a2enmod php8.6
 RUN a2enmod rewrite
-# COMMENTED OUT: re-enable together with the pecl installs above
-# RUN phpenmod -v 8.6 sqlsrv pdo_sqlsrv
+# The sury packages enable themselves on install; this just makes sure
+RUN phpenmod -v 8.6 sqlsrv pdo_sqlsrv
 
 # Update PHP.ini file
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/8.6/apache2/php.ini
@@ -82,19 +81,17 @@ RUN printf "; priority=99\nopcache.enable_cli=1\nopcache.file_cache=/tmp/opcache
 RUN mkdir -p /tmp/opcache && chmod 1777 /tmp/opcache
 
 # --- Xdebug ------------------------------------------------------------------
-# COMMENTED OUT: there is no php8.6-xdebug package yet, and released Xdebug
-# (3.5.x) refuses to build on PHP >= 8.6.0. Uncomment both blocks once
-# php8.6-xdebug appears at packages.sury.org.
+# php8.6-xdebug is installed with the core packages above (3.6.0 alpha for now).
 #
 # Create the 20-xdebug.ini file with xdebug configuration
-# RUN echo "zend_extension=xdebug.so\n\
-# xdebug.start_with_request = yes\n\
-# xdebug.mode = debug\n\
-# xdebug.remote_handler = dbgp\n\
-# xdebug.client_host = host.docker.internal\n\
-# xdebug.log = /tmp/xdebug_remote.log\n\
-# xdebug.client_port = 9003" \
-# > /etc/php/8.6/apache2/conf.d/20-xdebug.ini
+RUN echo "zend_extension=xdebug.so\n\
+xdebug.start_with_request = yes\n\
+xdebug.mode = debug\n\
+xdebug.remote_handler = dbgp\n\
+xdebug.client_host = host.docker.internal\n\
+xdebug.log = /tmp/xdebug_remote.log\n\
+xdebug.client_port = 9003" \
+> /etc/php/8.6/apache2/conf.d/20-xdebug.ini
 
 # Configure Apache Directory settings
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/c\<Directory /var/www/html/>\n\

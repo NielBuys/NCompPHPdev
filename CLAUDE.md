@@ -106,4 +106,11 @@ Expect these to be unavailable early in a PHP version's life, in this order of r
 1. `php8.x` core packages - appear first, at `packages.sury.org`.
 2. `php8.x-xdebug` - Xdebug's `config.m4` hard-refuses PHP versions above its supported
    range, so no released Xdebug builds until it ships support.
-3. `sqlsrv` / `pdo_sqlsrv` - Microsoft's pecl releases are usually last.
+3. `sqlsrv` / `pdo_sqlsrv` - usually last. **pecl is dead for these too:** Microsoft's
+   last pecl release is 5.13.3; from 5.14.0 they ship only via PIE and GitHub releases.
+   The Dockerfile installs `php8.x-sqlsrv` / `php8.x-pdo-sqlsrv` from
+   `packages.sury.org` instead. Do not go back to `pecl install`.
+
+Docker caches the `RUN apt-get update` layer, so a package that appeared at sury.org
+after the last build still shows "Unable to locate package". Rebuild with `--no-cache`
+before concluding a package is missing.
