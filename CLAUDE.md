@@ -13,7 +13,7 @@ Files that matter: `Dockerfile`, `README.md`, `.github/workflows/docker-publish.
 ## Branching model
 
 One long-lived branch per PHP minor version: `php8.2`, `php8.3`, `php8.4`, `php8.5`,
-`php8.6`. `main` holds the current fully working release (PHP 8.5 / Ubuntu 24.04).
+`php8.6`. `main` holds the current fully working release (PHP 8.6 / Ubuntu 26.04, `v1.3.0`).
 
 A new `php8.x` branch is cut when the next PHP version enters pre-release, and is
 merged to `main` **only once that PHP version is GA and every package works again** -
@@ -38,9 +38,10 @@ number is for fixes within the same PHP version.
 | `v1.2.x`  | 8.5 |
 | `v1.3.x`  | 8.6 |
 
-So PHP 8.6 releases as **`v1.3.0`**, tagged on `main` after the `php8.6` branch merges -
-never from the version branch itself. The README's pull instructions should keep naming
-the currently published tag (`v1.2.1`) until that merge and tag actually happen.
+A release is tagged on `main` after its `php8.x` branch merges - never from the version
+branch itself. PHP 8.6 was released that way as **`v1.3.0`**. The README's pull
+instructions name the currently published tag (`v1.3.0`); bump them only after the next
+merge and tag actually happen (PHP 8.7 would be `v1.4.0`).
 
 ## Package sources - read this before editing the Dockerfile
 

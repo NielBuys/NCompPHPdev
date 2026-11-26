@@ -5,8 +5,8 @@ PHP development Docker containers with XDebug configured and working.
 
 The following PHP modules are installed: mysql, cli, common, curl, gd, intl, ldap, mbstring, readline, sqlite3 (with pdo_sqlite), xdebug, xml, zip, sqlsrv and pdo_sqlsrv.
 
-> **You are on the `php8.6` branch.** PHP 8.6 is released and every module above
-> installs, but Xdebug is still a 3.6.0 alpha build. See [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
+> **Current release: `v1.3.0`** - PHP 8.6.0 on Ubuntu 26.04. Xdebug is still a 3.6.0
+> alpha build. See [PHP 8.6 package notes](#php-86-package-notes).
 
 ## Why this exists
 
@@ -29,9 +29,9 @@ Each PHP minor version has its own long-lived branch:
 
 | Branch   | PHP | Base image     | Image tag            | Status                                |
 | -------- | --- | -------------- | -------------------- | ------------------------------------- |
-| `main`   | 8.5 | `ubuntu:24.04` | `v1.2.1`             | Current release - what gets published |
-| `php8.6` | 8.6 | `ubuntu:26.04` | `v1.3.0` (unreleased) | In progress, PHP 8.6 is pre-release   |
-| `php8.5` | 8.5 | `ubuntu:24.04` | `v1.2.0`, `v1.2.1`   | Merged to `main`                      |
+| `main`   | 8.6 | `ubuntu:26.04` | `v1.3.0`             | Current release - what gets published |
+| `php8.6` | 8.6 | `ubuntu:26.04` | `v1.3.0`             | Merged to `main`                      |
+| `php8.5` | 8.5 | `ubuntu:24.04` | `v1.2.0`, `v1.2.1`   | Previous version                      |
 | `php8.4` | 8.4 | `ubuntu:24.04` | `v1.1.0`             | Previous version                      |
 | `php8.3` | 8.3 | `ubuntu:24.04` | `v1.0.0`, `v1.0.1`   | Previous version                      |
 | `php8.2` | 8.2 | `ubuntu:24.04` | -                    | Pre-dates tagged releases             |
@@ -66,7 +66,7 @@ version tracks the PHP version rather than the calendar:
 | `v1.2.x`  | 8.5 |
 | `v1.3.x`  | 8.6 |
 
-So **PHP 8.6 will be released as `v1.3.0`**. The patch number is for fixes to an image
+So **PHP 8.6 is released as `v1.3.0`**. The patch number is for fixes to an image
 within the same PHP version - for example `v1.2.1` added the `:delegated` flag to the
 PHP 8.5 image.
 
@@ -85,11 +85,12 @@ until it is merged.** To use an in-progress version, build it locally from its b
 
 ---
 
-## Current status of the php8.6 branch
+## PHP 8.6 package notes
 
-PHP 8.6 reached General Availability on **2026-11-19** (`8.6.0`), and every package now
-installs. The one caveat is Xdebug: no stable release supports PHP 8.6 yet, so
-`php8.6-xdebug` is built from Xdebug 3.6.0alpha1.
+PHP 8.6 reached General Availability on **2026-11-19** (`8.6.0`) and is published as
+`v1.3.0`. The one caveat is Xdebug: no stable release supports PHP 8.6 yet, so
+`php8.6-xdebug` is built from Xdebug 3.6.0alpha1. It moves to the stable 3.6.x when
+that ships and the image is rebuilt.
 
 **Packages no longer come from `ppa:ondrej/php`.** Ondřej Surý has stopped adding new
 Ubuntu LTS releases to the Launchpad PPA - it stops at `noble`/24.04. From Ubuntu 26.04
@@ -119,28 +120,29 @@ Ensure you have Docker installed on your system. These instructions were tested 
 
 ### Pull docker image
 
-The published image is built from `main`, so it is the **current release (PHP 8.5)**, not
-this branch. For PHP 8.6, build locally instead - see the next section.
+The published image is built from `main`: the **current release, `v1.3.0` (PHP 8.6)**.
+For an older PHP version, pull its tag (see [Versioning](#versioning)) or build locally
+from its branch.
 
 1. **Pull Docker image**
 
   - **Ubuntu**
 
-        sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.1
+        sudo docker pull ghcr.io/nielbuys/ncompphpdev:v1.3.0
     
   - **Windows**
 
-        docker pull ghcr.io/nielbuys/ncompphpdev:v1.2.1
+        docker pull ghcr.io/nielbuys/ncompphpdev:v1.3.0
 
 2. **Run the Docker container**
 
   - **Ubuntu**
 
-        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp85dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.2.1
+        sudo docker run  -p 80:80 --add-host=host.docker.internal:host-gateway --name ncompphp86dev -d -v /var/www/html:/var/www/html ghcr.io/nielbuys/ncompphpdev:v1.3.0
 
   - **Windows**
 
-        docker run  -p 80:80 --name ncompphp85dev -d -v C:/html:/var/www/html:delegated ghcr.io/nielbuys/ncompphpdev:v1.2.1
+        docker run  -p 80:80 --name ncompphp86dev -d -v C:/html:/var/www/html:delegated ghcr.io/nielbuys/ncompphpdev:v1.3.0
 
 ### How to Build and Run the Docker Container
 
@@ -265,9 +267,9 @@ Install the PHP Debug (XDebug.org) extension, then add this to `launch.json`:
 The `pathMappings` entry ensures that files inside the container are correctly mapped to
 your VS Code project folder - without it, breakpoints will not bind.
 
-> **On this branch Xdebug is a 3.6.0 alpha build**, the first Xdebug with PHP 8.6
+> **In `v1.3.0` Xdebug is a 3.6.0 alpha build**, the first Xdebug with PHP 8.6
 > support. If debugging misbehaves, suspect the alpha first. See
-> [Current status of the php8.6 branch](#current-status-of-the-php86-branch).
+> [PHP 8.6 package notes](#php-86-package-notes).
 
 ### How do I clear the Docker build cache?
 
